@@ -1,0 +1,15 @@
+body {
+  background-color: gray;
+
+}
+#myCanvas {
+  background: black;
+  display: block;
+  margin: 0 auto; }
+}
+
+#scores {
+  left: 50%;
+  color: red;
+
+}
