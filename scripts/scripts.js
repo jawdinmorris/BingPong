@@ -70,14 +70,12 @@ function keyDownHandler(e) {
 }
 
 function drawBall() {
-
     //draw ball
     context.beginPath();
     context.arc(x, y, ballRadius, 0, Math.PI*2, false);
     context.fillStyle = "red";
     context.fill();
     context.closePath();
-
 }
 
 function drawPlayer() {
@@ -99,13 +97,6 @@ function drawPlayer() {
   context.textAlign = "center";
   context.strokeText(userOne + ":" + oneScore + "  " + userTwo + ":" + twoScore , canvas.width/2 , 20);
 
-
-  //context.font = "14pt Courier New";
-  //context.strokeStyle = "white";
-  //context.textAlign = "center";
-  //context.strokeText(userTwo + ":" + twoScore, 0, 20);
-
-
   context.font = "30pt Courier New";
   context.strokeStyle = "white";
   context.strokeText(timer, canvas.width/2, canvas.height/2);
@@ -113,6 +104,7 @@ function drawPlayer() {
 
 
 function bounceLogic() {
+//Bottom and Top collision
   if (y + dy < ballRadius) {
   dy = -dy;
   audio.play();
@@ -121,6 +113,8 @@ if (y + dy > canvas.height-ballRadius) {
   dy = -dy;
   audio.play();
 }
+
+//Left and Right Collision
 if (x + (dx * veloc) < ballRadius) {
   dx = -dx;
   if (canScore == true) {
@@ -139,6 +133,8 @@ if (x + (dx * veloc) > canvas.width-ballRadius) {
     timer = 3;
   }
 }
+
+//Paddle collisions
 if (x < (15 + ballRadius) && canScore == true) {
   if ((y > playerOneY) && (y < (playerOneY + padLength))){
 paddleAudio.play();
@@ -155,18 +151,18 @@ paddleAudio.play();
     veloc = veloc + 0.5;
   }
 }
+
+//Stops the ball from bouncing everywhere in the bounce if functions
 if (x > 50 && x < 400) {
   canScore = true;
 }
 }
 
-
-
 function draw() {
   //clear canvas each interval
   context.clearRect(0, 0, canvas.width, canvas.height);
 
-
+//had to do a poor workaround for Timer. Need to figure this out better.
  secondTimer = secondTimer - 1;
  if (secondTimer == 0) {
    secondTimer = 100;
@@ -175,7 +171,7 @@ function draw() {
 
  }
  }
-
+//lock the ball when the timer is going.
 if (timer == 0){
     //move ball
     timer = "";
@@ -183,6 +179,7 @@ if (timer == 0){
   y += (dy * veloc);
 }
 
+//End score
 if (oneScore == topScore){
   context.font = "14pt Courier New";
   context.strokeStyle = "white";
@@ -218,12 +215,10 @@ else if (twoScore == topScore){
  playerTwoY += 5;
  }
 
+//Call main functions
  drawPlayer();
- drawBall();
  bounceLogic();
+  drawBall();
 }
-
-
-
 
 setInterval(draw,10);
